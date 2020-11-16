@@ -1,6 +1,7 @@
 package com.blz.addressbooktest;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -9,12 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.blz.addressbooktest.AddressBook.IOService;
+import com.google.gson.Gson;
 import com.opencsv.*;
 import com.opencsv.bean.CsvToBeanBuilder;
 
 public class AddressBookIOService {
-	public static String AddressBookData_FileName = "C:\\Users\\AB\\eclipse-workspace\\AddressBookTest\\static\\AddressBookData.txt";
-	public static String AddressBookData_CSV = "C:\\Users\\AB\\eclipse-workspace\\AddressBookTest\\static\\AddressBookData.csv";
+	public static String AddressBookData_FileName = "C:\\Users\\AB\\eclipse-workspace\\AddressBookTest\\static\\AddressBookDataTEXT.txt";
+	public static String AddressBookData_CSV = "C:\\Users\\AB\\eclipse-workspace\\AddressBookTest\\static\\AddressBookDataCSV.csv";
+	public static String AddressBookData_JSON = "C:\\Users\\AB\\eclipse-workspace\\AddressBookTest\\static\\AddressBookDataJSON.json";
 
 	public void writeDataToFile(List<PersonDetails> list) {
 		StringBuffer strBuffer = new StringBuffer();
@@ -40,7 +43,7 @@ public class AddressBookIOService {
 	}
 
 	// UC14
-	public  void writeToCSV(List<PersonDetails> list) {
+	public void writeToCSV(List<PersonDetails> list) {
 		try (CSVWriter write = new CSVWriter(new FileWriter(new File(AddressBookData_CSV), true));) {
 			List<String[]> listCSV = new ArrayList<>();
 			for (PersonDetails person : list) {
@@ -54,6 +57,7 @@ public class AddressBookIOService {
 			e.printStackTrace();
 		}
 	}
+
 	public static long countPersonInCSV(IOService io) {
 		long enteries = 0;
 		try {
@@ -63,4 +67,25 @@ public class AddressBookIOService {
 		}
 		return enteries;
 	}
+
+	// UC15 - read write operation of json
+
+	public void writeToJSON(List<PersonDetails> list) throws IOException {
+		Gson gson = new Gson();
+		String json = gson.toJson(list);
+		FileWriter writer = new FileWriter(String.valueOf(AddressBookData_JSON));
+		writer.write(json);
+		writer.close();
+	}
+
+	public static long countPersonInJSON(IOService io) {
+		long enteries = 0;
+		try {
+			enteries = Files.lines(new File(AddressBookData_JSON).toPath()).count();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return enteries;
+	}
+
 }

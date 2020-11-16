@@ -1,5 +1,7 @@
 package com.blz.addressbooktest;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream.GetField;
@@ -7,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -15,6 +18,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+import com.google.gson.Gson;
 import com.opencsv.CSVReader;
 
 public class AddressBook {
@@ -370,13 +374,48 @@ public class AddressBook {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public long countCSVEntries(IOService ioService) {
 		if (ioService.equals(IOService.FILE_IO))
 			return new AddressBookIOService().countPersonInCSV(ioService);
 		return 0;
 	}
 
+	// UC15 - Read and Write to and from json
+
+	public static void writeAddressBookDataToJSON(IOService ioService) throws IOException {
+		if (ioService.equals(com.blz.addressbooktest.AddressBook.IOService.CONSOLE_IO))
+			System.out.println("Person Details : " + addressBookList);
+		if (ioService.equals(com.blz.addressbooktest.AddressBook.IOService.FILE_IO))
+			new AddressBookIOService().writeToJSON(addressBookList);
+	}
+
+	public void readAddressBookDataFromJSON() throws FileNotFoundException {
+		System.out.println("Enter Address book Name");
+		String addressBookData = sc.nextLine();
+		Path filepath = Paths
+				.get("C:\\Users\\AB\\eclipse-workspace\\AddressBookTest\\static\\" + addressBookData + ".json");
+		Gson gson = new Gson();
+		BufferedReader bufferReader = new BufferedReader(new FileReader(String.valueOf(filepath)));
+		PersonDetails[] data = gson.fromJson(bufferReader, PersonDetails[].class);
+		List<PersonDetails> list = Arrays.asList(data);
+		for (PersonDetails person : list) {
+			System.out.println("FirstName : " + person.firstName);
+			System.out.println("LastName : " + person.lastName);
+			System.out.println("Address : " + person.address);
+			System.out.println("City : " + person.city);
+			System.out.println("Zip : " + person.zip);
+			System.out.println("PhoneNumber : " + person.phoneNumber);
+			System.out.println("Email : " + person.email);
+		}
+
+	}
+
+	public long countJSONEntries(IOService ioService) {
+		if (ioService.equals(IOService.FILE_IO))
+			return new AddressBookIOService().countPersonInJSON(ioService);
+		return 0;
+	}
 
 	public static void main(String[] args) {
 
