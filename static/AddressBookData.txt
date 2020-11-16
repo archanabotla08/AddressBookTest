@@ -1,0 +1,3 @@
+AddressBook [firstName=Archana, lastName=Botla, address=Somesh colony , city=Nanded,  zip=431601, phoneNo=98912443526, email=arcbot@gmail.com]
+AddressBook [firstName=sweety, lastName=shide, address=Somesh colony , city=Nanded,  zip=431601, phoneNo=98912443526, email=arcbot@gmail.com]
+AddressBook [firstName=sridhar, lastName=Botla, address=Somesh colony , city=Nanded,  zip=431601, phoneNo=98912443526, email=arcbot@gmail.com]
