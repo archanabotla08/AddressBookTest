@@ -8,6 +8,8 @@ public class PersonDetails {
 	public String zip;
 	public String phoneNumber;
 	public String email;
+	public String type;
+	public int id;
 	
 	public PersonDetails() {
 		
@@ -22,6 +24,19 @@ public class PersonDetails {
 		this.email = email;
 	}
 	
+	public PersonDetails(int id ,String firstName, String type, String lastName, String address, String city, String zip, String phoneNumber,
+			String email ) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.address = address;
+		this.city = city;
+		this.zip = zip;
+		this.phoneNumber = phoneNumber;
+		this.email = email;
+		this.type = type;
+		this.id = id;
+	}
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
